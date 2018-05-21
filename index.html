@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>InstaQR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="outer" style="height:200px; width:200px;">
+
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./node_modules/dom-to-image/dist/dom-to-image.min.js"></script>
+    <script>
+
+        var position = ['-45deg', '0deg', '45deg'];
+        // $('#outer').append(createSVGImg());
+        var node = createSVGImg()[0];
+        
+        console.log(new XMLSerializer().serializeToString(node));
+
+        console.log(window.btoa(node.outerHTML))
+
+        var img = new Image();
+        img.src = 'data:image/png;base64,' + window.btoa(node.outerHTML);
+        $('#outer').append(img);
+
+        // var node = createImgGroup()[0];
+
+        // $('#outer').append(node);
+        // console.log(node)
+        // domtoimage.toPng(node)
+        //     .then(function (dataUrl) {
+        //         console.log(dataUrl)
+        //         var img = new Image();
+        //         img.src = dataUrl;
+        //         $('#outer').append(img);
+        //     })
+        //     .catch(function (error) {
+        //         console.error('oops, something went wrong!', error);
+        //     });
+
+        function createSVGImg() {
+            var imgEle = $(document.createElement('img'));
+
+            imgEle.attr('style', 'height:100%;width:100%;');
+
+            var svgEle = $(document.createElement('svg'));
+
+            svgEle.attr({height: 200, width: 200, xmlns: 'http://www.w3.org/2000/svg'});
+
+            var foreignObjEle = $('<foreignObject></foreignObject>');
+
+            foreignObjEle.attr({width: 200, height: 200});
+
+            var bodyEle = $('<body></body>');
+
+            bodyEle.attr({xmlns: 'http://www.w3.org/1999/xhtml'});
+
+            bodyEle.css({
+                height: 200,
+                width: 200,
+                position: "relative"
+            });
+
+            // bodyEle.append($('<p>helloworld</p>'));
+
+            for (var i = 0; i < 10; i++) {
+                for (var j = 0; j < 10; j++) {
+                    var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
+
+                    iconEle.css({position: 'absolute', top: i * 20, left: j * 20, width: 20, height: 20, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
+
+                    bodyEle.append(iconEle);
+                }
+            }
+
+            foreignObjEle.append(bodyEle);
+
+            svgEle.append(foreignObjEle);
+
+            // console.log(svgEle[0].outerHTML.replace(/"/g, '\''))
+
+
+            // imgEle.attr('src', 'data:image/svg+xml;charset=utf-8,' + svgEle[0].outerHTML.replace(/"/g, '\''));
+
+            // console.log(imgEle.attr('src'))
+            // return imgEle;
+            // console.log(svgEle[0].outerHTML.replace(/"/g, '\''));
+            return svgEle;
+        }
+
+        function createImgGroup() {
+            var bodyEle = $('<div></div>');
+
+            bodyEle.css({
+                height: 200,
+                width: 200,
+                position: "relative"
+            });
+
+            // bodyEle.append($('<p>helloworld</p>'));
+
+            for (var i = 0; i < 10; i++) {
+                for (var j = 0; j < 10; j++) {
+                    var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
+
+                    iconEle.css({position: 'absolute', top: i * 20, left: j * 20, width: 20, height: 20, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
+
+                    bodyEle.append(iconEle);
+                }
+            }
+
+            return bodyEle;
+        }
+    </script>
+</body>
+</html>
