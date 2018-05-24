@@ -95,21 +95,14 @@
 
             svgEle.append(foreignObjEle);
 
-            // console.log(svgEle[0].outerHTML.replace(/"/g, '\''))
-
-
-            // imgEle.attr('src', 'data:image/svg+xml;charset=utf-8,' + svgEle[0].outerHTML.replace(/"/g, '\''));
-
-            // console.log(imgEle.attr('src'))
-            // return imgEle;
-            // console.log(svgEle[0].outerHTML.replace(/"/g, '\''));
             return svgEle;
         }
 
         function createImgGroup() {
             var bodyEle = $('<div></div>'),
                 bodyHeight = 200,
-                bodyWidth = 200;
+                bodyWidth = 200,
+                blankPos = 0;
 
             bodyEle.css({
                 height: bodyHeight,
@@ -122,12 +115,17 @@
 
             for (var i = 0; i < imgRowNum; i++) {
                 for (var j = 0; j < imgColNum; j++) {
+
+                    if (j % 2 == blankPos) continue;
+
                     var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
 
                     iconEle.css({position: 'absolute', top: i * (bodyHeight / imgRowNum), left: j * (bodyWidth / imgColNum), width: bodyWidth / imgColNum, height: bodyHeight / imgRowNum, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
 
                     bodyEle.append(iconEle);
+
                 }
+                blankPos = (blankPos + 1) % 2;
             }
 
             return bodyEle;
