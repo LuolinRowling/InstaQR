@@ -25,30 +25,33 @@
 
         var position = ['-45deg', '0deg', '45deg'];
         // $('#outer').append(createSVGImg());
-        var node = createSVGImg()[0];
+
+        // var node = createSVGImg()[0];
         
-        console.log(new XMLSerializer().serializeToString(node));
+        // console.log(new XMLSerializer().serializeToString(node));
 
-        console.log(window.btoa(node.outerHTML))
+        // console.log(window.btoa(node.outerHTML));
 
-        var img = new Image();
-        img.src = 'data:image/png;base64,' + window.btoa(node.outerHTML);
-        $('#outer').append(img);
+        // var img = new Image();
+        // img.src = 'data:image/png;base64,' + window.btoa(node.outerHTML);
 
-        // var node = createImgGroup()[0];
 
-        // $('#outer').append(node);
-        // console.log(node)
-        // domtoimage.toPng(node)
-        //     .then(function (dataUrl) {
-        //         console.log(dataUrl)
-        //         var img = new Image();
-        //         img.src = dataUrl;
-        //         $('#outer').append(img);
-        //     })
-        //     .catch(function (error) {
-        //         console.error('oops, something went wrong!', error);
-        //     });
+        // $('#outer').append(img);
+
+        var node = createImgGroup()[0];
+
+        $('#outer').append(node);
+
+        domtoimage.toPng(node)
+            .then(function (dataUrl) {
+                console.log(dataUrl)
+                var img = new Image();
+                img.src = dataUrl;
+                $('#outer').append(img);
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
 
         function createSVGImg() {
             var imgEle = $(document.createElement('img'));
@@ -63,23 +66,26 @@
 
             foreignObjEle.attr({width: 200, height: 200});
 
-            var bodyEle = $('<body></body>');
+            var bodyEle = $('<body></body>'),
+                bodyHeight = 200,
+                bodyWidth = 200;
 
             bodyEle.attr({xmlns: 'http://www.w3.org/1999/xhtml'});
 
             bodyEle.css({
-                height: 200,
-                width: 200,
+                height: bodyHeight,
+                width: bodyWidth,
                 position: "relative"
             });
 
-            // bodyEle.append($('<p>helloworld</p>'));
+            var imgColNum = 10,
+                imgRowNum = 10;
 
             for (var i = 0; i < 10; i++) {
                 for (var j = 0; j < 10; j++) {
                     var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
 
-                    iconEle.css({position: 'absolute', top: i * 20, left: j * 20, width: 20, height: 20, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
+                    iconEle.css({position: 'absolute', top: i * (bodyHeight / imgRowNum), left: j * (bodyWidth / imgColNum), width: bodyWidth / imgColNum, height: bodyHeight / imgRowNum, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
 
                     bodyEle.append(iconEle);
                 }
@@ -101,21 +107,24 @@
         }
 
         function createImgGroup() {
-            var bodyEle = $('<div></div>');
+            var bodyEle = $('<div></div>'),
+                bodyHeight = 200,
+                bodyWidth = 200;
 
             bodyEle.css({
-                height: 200,
-                width: 200,
+                height: bodyHeight,
+                width: bodyWidth,
                 position: "relative"
             });
 
-            // bodyEle.append($('<p>helloworld</p>'));
+            var imgColNum = 10,
+                imgRowNum = 10;
 
-            for (var i = 0; i < 10; i++) {
-                for (var j = 0; j < 10; j++) {
+            for (var i = 0; i < imgRowNum; i++) {
+                for (var j = 0; j < imgColNum; j++) {
                     var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
 
-                    iconEle.css({position: 'absolute', top: i * 20, left: j * 20, width: 20, height: 20, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
+                    iconEle.css({position: 'absolute', top: i * (bodyHeight / imgRowNum), left: j * (bodyWidth / imgColNum), width: bodyWidth / imgColNum, height: bodyHeight / imgRowNum, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
 
                     bodyEle.append(iconEle);
                 }
