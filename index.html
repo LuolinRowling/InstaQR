@@ -38,20 +38,20 @@
 
         // $('#outer').append(img);
 
-        var node = createImgGroup()[0];
+        var node = createSVGImg()[0];
 
         $('#outer').append(node);
 
-        domtoimage.toPng(node)
-            .then(function (dataUrl) {
-                console.log(dataUrl)
-                var img = new Image();
-                img.src = dataUrl;
-                $('#outer').append(img);
-            })
-            .catch(function (error) {
-                console.error('oops, something went wrong!', error);
-            });
+        // domtoimage.toPng(node)
+        //     .then(function (dataUrl) {
+        //         console.log(dataUrl)
+        //         var img = new Image();
+        //         img.src = dataUrl;
+        //         $('#outer').append(img);
+        //     })
+        //     .catch(function (error) {
+        //         console.error('oops, something went wrong!', error);
+        //     });
 
         function createSVGImg() {
             var imgEle = $(document.createElement('img'));
@@ -64,34 +64,11 @@
 
             var foreignObjEle = $('<foreignObject></foreignObject>');
 
-            foreignObjEle.attr({width: 200, height: 200});
+            foreignObjEle.attr({width: "100%", height: "100%", x: "0", y: "0"});
 
-            var bodyEle = $('<body></body>'),
-                bodyHeight = 200,
-                bodyWidth = 200;
-
-            bodyEle.attr({xmlns: 'http://www.w3.org/1999/xhtml'});
-
-            bodyEle.css({
-                height: bodyHeight,
-                width: bodyWidth,
-                position: "relative"
-            });
-
-            var imgColNum = 10,
-                imgRowNum = 10;
-
-            for (var i = 0; i < 10; i++) {
-                for (var j = 0; j < 10; j++) {
-                    var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
-
-                    iconEle.css({position: 'absolute', top: i * (bodyHeight / imgRowNum), left: j * (bodyWidth / imgColNum), width: bodyWidth / imgColNum, height: bodyHeight / imgRowNum, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
-
-                    bodyEle.append(iconEle);
-                }
-            }
-
-            foreignObjEle.append(bodyEle);
+            // foreignObjEle.append(createImgGroup()[0]);
+            console.log(createImgGroup())
+            foreignObjEle.append(createImgGroup());
 
             svgEle.append(foreignObjEle);
 
@@ -110,6 +87,10 @@
                 position: "relative"
             });
 
+            bodyEle.attr({
+                "xmlns": "http://www.w3.org/1999/xhtml"
+            });
+
             var imgColNum = 10,
                 imgRowNum = 10;
 
@@ -118,7 +99,7 @@
 
                     if (j % 2 == blankPos) continue;
 
-                    var iconEle = $('<img src="https://i.loli.net/2018/05/20/5b004d84a9d60.png" />');
+                    var iconEle = $('<img src="https://i.loli.net/2018/05/24/5b069890d3c5e.png" />');
 
                     iconEle.css({position: 'absolute', top: i * (bodyHeight / imgRowNum), left: j * (bodyWidth / imgColNum), width: bodyWidth / imgColNum, height: bodyHeight / imgRowNum, 'transform-origin': 'center', transform: 'rotate(' + position[Math.floor(Math.random() * 3)] + ')'});
 
@@ -128,7 +109,27 @@
                 blankPos = (blankPos + 1) % 2;
             }
 
-            return bodyEle;
+            // return bodyEle;
+            return new XMLSerializer().serializeToString(bodyEle[0]).replace(/#/g, '%23').replace(/\n/g, '%0A');
+        }
+
+
+
+        function toPng(domNode) {
+            return draw(domNode)
+                .then(function(canvas) {
+                    return canvas.toDataUrl();
+                })
+        }
+
+        function draw(domNode) {
+            return toSvg(domNode)
+                .then()
+        }
+
+        function toSvg(domNode) {
+            return Promise.resolve(domNode)
+                .then()
         }
     </script>
 </body>
